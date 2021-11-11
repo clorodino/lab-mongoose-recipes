@@ -8,20 +8,52 @@ const data = require('./data');
 const MONGODB_URI = 'mongodb://localhost:27017/recipe-app';
 
 // Connection to the database "recipe-app"
-mongoose
-  .connect(MONGODB_URI, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then(self => {
+
+const fillRecipe = async () => {
+  // connect to the database
+  try {
+   await mongoose
+     .connect(MONGODB_URI, {
+       useCreateIndex: true,
+       useNewUrlParser: true,
+       useUnifiedTopology: true
+  }).then(self => {
     console.log(`Connected to the database: "${self.connection.name}"`);
     // Before adding any recipes to the database, let's remove all existing ones
-    return Recipe.deleteMany()
+    //return Recipe.deleteMany()
   })
-  .then(() => {
-    // Run your code here, after you have insured that the connection was made
-  })
-  .catch(error => {
-    console.error('Error connecting to the database', error);
-  });
+  console.log("connected");
+
+  //////
+
+  // const newRecipe = {
+  //   title: "pizza",
+  //   cuisine: "american"
+  // }
+  // const createdRecipe = await Recipe.create(newRecipe);
+  // console.log(createdRecipe.title)
+
+  /////
+  
+  // await Recipe.insertMany(data)
+  // console.log(data)
+
+  /////
+
+  // await Recipe.findOneAndUpdate({title: "Rigatoni alla Genovese" }, 
+  //   {duration: 100}) 
+  
+
+  /////
+
+  //await Recipe.deleteOne({title: "Carrot Cake"})
+
+  }catch (error){
+    console.log(error);
+  }
+  //disconnect from the database
+  mongoose.disconnect();
+};
+
+fillRecipe();
+
